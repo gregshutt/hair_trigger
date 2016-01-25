@@ -94,6 +94,11 @@ module HairTrigger
       all_builders
     end
 
+    def current_migration_names(options = {})
+      migrator = self.migrator
+      migrator.migrations.map(&:name)
+    end
+
     def migrations_current?
       current_migrations.map(&:last).sort.eql? current_triggers.sort
     end
@@ -107,7 +112,7 @@ module HairTrigger
       end
   
       migrations = current_migrations
-      migration_names = migrations.map(&:first)
+      migration_names = current_migration_names
       existing_triggers = migrations.map(&:last)
   
       up_drop_triggers = []
